@@ -1,12 +1,43 @@
 #!ipxe
 ###
-### netboot.xyz-custom menu
+### netboot.xyz-custom menu example
 ###
 
-:start
-echo Hello world!
-sleep 10
+:custom
+clear custom_choice
+menu Test boot
+item --gap Boot Debian Live
+item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img
+item option_two ${space} Loading an ISO
+item --gap This is a second sub menu
+item option_three ${space} Loads another custom sub menu
+item option_four ${space} This is option four
+choose custom_choice || goto custom_exit
+echo ${cls}
+goto ${custom_choice}
 goto custom_exit
 
+:debian_live
+    kernel debian-live-8.7.1-amd64-standard.vmlinuz live fetch=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
+    initrd debian-live-8.7.1-amd64-standard.initrd.img
+###    initrd libresolv.so.2 /lib/libresolv.so.2
+###    initrd libnss_dns.so.2 /lib/libnss_dns.so.2
+    boot
+
+kernel http://path.to/vmlinuz
+initrd http://path.to/initrd
+imgargs vmlinuz put_kernel_img_args_here
+boot || goto custom_exit
+
+:option_two
+kernel https://boot.netboot.xyz/memdisk raw iso
+initrd http://path.to/iso
+boot || goto custom_exit
+
+:option_three
+echo Chains into another menu...
+chain https://raw.githubusercontent.com/${github_user}/netboot.xyz-custom/master/custom1.ipxe || goto custom
+
 :custom_exit
-exit 0
+chain utils.ipxe
+exit
