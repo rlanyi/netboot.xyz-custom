@@ -7,7 +7,7 @@
 clear custom_choice
 menu Test boot
 item --gap Boot Debian Live
-item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img - imgargs
+item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img - imgargs,-console,-config
 item option_two ${space} Loading an ISO
 item --gap This is a second sub menu
 item option_three ${space} Loads another custom sub menu
@@ -20,7 +20,7 @@ goto custom_exit
 :debian_live
 kernel http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.vmlinuz
 initrd http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.initrd.img
-imgargs debian-live-8.7.1-amd64-standard.vmlinuz boot=live config console=ttyS0 username=live fetch=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
+imgargs debian-live-8.7.1-amd64-standard.vmlinuz boot=live username=live fetch=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
 boot || goto custom_exit
 
 kernel http://path.to/vmlinuz
