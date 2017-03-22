@@ -18,11 +18,9 @@ goto ${custom_choice}
 goto custom_exit
 
 :debian_live
-    kernel http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.vmlinuz boot=live fetch=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
-    initrd http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.initrd.img
-###    initrd libresolv.so.2 /lib/libresolv.so.2
-###    initrd libnss_dns.so.2 /lib/libnss_dns.so.2
-    boot || goto custom_exit
+kernel http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.vmlinuz boot=live toram=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
+initrd http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.initrd.img
+boot || goto custom_exit
 
 kernel http://path.to/vmlinuz
 initrd http://path.to/initrd
