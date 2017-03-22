@@ -7,7 +7,7 @@
 clear custom_choice
 menu Test boot
 item --gap Boot Debian Live
-item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img - 1
+item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img - toram
 item option_two ${space} Loading an ISO
 item --gap This is a second sub menu
 item option_three ${space} Loads another custom sub menu
