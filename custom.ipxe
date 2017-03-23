@@ -8,7 +8,7 @@ clear custom_choice
 menu Test boot
 item --gap Boot Debian Live
 item debian_live ${space} Load debian-live-8.7.1-amd64-standard.initrd.img - +ramdisk
-item option_two ${space} Loading an ISO
+item livedebian_boot ${space} Load live Debian
 item --gap This is a second sub menu
 item option_three ${space} Loads another custom sub menu
 item option_four ${space} This is option four
@@ -23,10 +23,16 @@ initrd http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.initrd.img
 imgargs debian-live-8.7.1-amd64-standard.vmlinuz initrd=initrd boot=live username=live load_ramdisk=1 ramdisk_blocksize=4096 root=/dev/ram0 ramdisk_size=786432 fetch=http://192.168.56.1/iso/debian-live-8.7.1-amd64-standard.squashfs
 boot || goto custom_exit
 
-kernel http://path.to/vmlinuz
-initrd http://path.to/initrd
-imgargs vmlinuz put_kernel_img_args_here
-boot || goto custom_exit
+:livedebian_boot
+set webboot_host 192.168.56.1
+set livedebian_url http://${webboot_host}/iso/debian-live-8.7.1-amd64-standard
+imgfree
+kernel ${livedebian_url}.vmlinuz boot=live config hooks=filesystem username=live noeject ${console} fetch=${livedebian_url}.squashfs initrd=debian-live-8.7.1-amd64-standard.initrd.img
+module ${livedebian_url}.initrd.img
+# used to resolve DNS
+module http://${boot_domain}/live-helpers/debian/libresolv.so.2 /lib/libresolv.so.2
+module http://${boot_domain}/live-helpers/debian/libnss_dns.so.2 /lib/libnss_dns.so.2
+boot
 
 :option_two
 kernel https://boot.netboot.xyz/memdisk raw iso
